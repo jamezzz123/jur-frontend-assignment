@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 const Title = ({ title, subTitle }) => (
   <div className="row text-center my-4">
     <div className="col">
@@ -6,5 +8,10 @@ const Title = ({ title, subTitle }) => (
     </div>
   </div>
 );
+
+Title.propTypes = {
+  title: PropTypes.string.isRequired,
+  subTitle: PropTypes.string,
+};
 
 export default Title;
