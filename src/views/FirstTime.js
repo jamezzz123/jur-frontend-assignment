@@ -6,6 +6,7 @@ import axios from "../plugins/axios";
 
 const FirstTime = () => {
   let [contactList, setContactList] = useState([]);
+  let [selectedUser, setSelectedUser] = useState();
 
   const fetchContactLists = async () => {
     let { data } = await axios.get("./contacts");
@@ -19,15 +20,23 @@ const FirstTime = () => {
     <>
       <Title title="Let's us know who you area" subTitle="" />
       {contactList &&
-        contactList.map((items, index) => (
-          <ContactList key={index} name={items.name} />
+        contactList.map((items) => (
+          <ContactList
+            key={items.id}
+            name={items.name}
+            selected={selectedUser === items.id}
+            clickHandler={() => setSelectedUser(items.id)}
+          />
         ))}
-
-      <div className="row text-end">
-        <div className="col">
-          <BaseButton />
+      {selectedUser != null ? (
+        <div className="row text-end">
+          <div className="col">
+            <BaseButton />
+          </div>
         </div>
-      </div>
+      ) : (
+        ""
+      )}
     </>
   );
 };
