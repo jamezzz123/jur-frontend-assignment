@@ -2,6 +2,7 @@ import BaseButton from "../components/BaseButton";
 import ContactList from "../components/ContactList";
 import Title from "../components/Title";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "../plugins/axios";
 
 const FirstTime = () => {
@@ -31,7 +32,9 @@ const FirstTime = () => {
       {selectedUser != null ? (
         <div className="row text-end">
           <div className="col">
-            <BaseButton />
+            <Link to={`/select-user/${selectedUser}`}>
+              <BaseButton />
+            </Link>
           </div>
         </div>
       ) : (
