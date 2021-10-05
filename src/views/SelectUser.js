@@ -2,25 +2,32 @@ import BaseButton from "../components/BaseButton";
 import ContactList from "../components/ContactList";
 import Title from "../components/Title";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import axios from "../plugins/axios";
 
 const SelectUser = () => {
   let [contactList, setContactList] = useState([]);
-  let [currentUser, setCurrentUser] = useState({});
   let [selectedUser, setSelectedUser] = useState([]);
-  let { user } = useParams();
+  let currentUser = useSelector((state) => state.user);
+  let dispatch = useDispatch();
+  let history = useHistory();
 
   const fetchContactListsWithOutSelected = async () => {
     let { data } = await axios.get("./contacts");
-    let foundUser = data.find((item) => item.id === parseInt(user));
-    setCurrentUser(foundUser);
-    let results = data.filter((item) => item.id !== parseInt(user));
+    let results = data.filter((item) => item.id !== parseInt(currentUser.id));
     setContactList(results);
   };
+
+  const handleSelectedContact = () => {
+    dispatch({ type: "SET_CONTACTS", payload: selectedUser });
+    history.push("/create-conversation");
+  };
+
   useEffect(() => {
     fetchContactListsWithOutSelected();
   }, []);
+
   return (
     <>
       <Title
@@ -34,14 +41,15 @@ const SelectUser = () => {
           <ContactList
             key={items.id}
             name={items.name}
-            selected={selectedUser.includes(items.id)}
-            clickHandler={() => setSelectedUser([...selectedUser, items.id])}
+            selected={selectedUser.includes(items)}
+            clickHandler={() => setSelectedUser([...selectedUser, items])}
           />
         ))}
       {selectedUser.length > 0 ? (
         <div className="row text-end">
           <div className="col">
-            <BaseButton />
+            <BaseButton clickHandler={() => handleSelectedContact()} />
+            <BaseButton clickHandler={() => history.push("/conversations")} />
           </div>
         </div>
       ) : (

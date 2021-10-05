@@ -1,7 +1,11 @@
-const BaseButton = () => {
+const BaseButton = ({ clickHandler, text = "Continue" }) => {
   return (
-    <button style={buttonStyle} className="btn btn-primary">
-      Continue
+    <button
+      onClick={clickHandler}
+      style={buttonStyle}
+      className="btn btn-primary"
+    >
+      {text}
     </button>
   );
 };

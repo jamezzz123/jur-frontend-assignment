@@ -2,12 +2,24 @@ import BaseButton from "../components/BaseButton";
 import ContactList from "../components/ContactList";
 import Title from "../components/Title";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import axios from "../plugins/axios";
 
 const FirstTime = () => {
   let [contactList, setContactList] = useState([]);
   let [selectedUser, setSelectedUser] = useState();
+  // let counter = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const selectedUserFunc = () => {
+    dispatch({
+      type: "SET_USER",
+      payload: selectedUser,
+    });
+    history.push("/select-user");
+  };
 
   const fetchContactLists = async () => {
     let { data } = await axios.get("./contacts");
@@ -25,16 +37,14 @@ const FirstTime = () => {
           <ContactList
             key={items.id}
             name={items.name}
-            selected={selectedUser === items.id}
-            clickHandler={() => setSelectedUser(items.id)}
+            selected={selectedUser === items}
+            clickHandler={() => setSelectedUser(items)}
           />
         ))}
       {selectedUser != null ? (
         <div className="row text-end">
           <div className="col">
-            <Link to={`/select-user/${selectedUser}`}>
-              <BaseButton />
-            </Link>
+            <BaseButton clickHandler={() => selectedUserFunc()} />
           </div>
         </div>
       ) : (
