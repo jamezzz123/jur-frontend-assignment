@@ -1,10 +1,12 @@
 import ContactList from "./ContactList";
 import { useState, useEffect } from "react";
 import axios from "../plugins/axios";
+import { useSelector } from "react-redux";
 
 const Notification = () => {
   let [notification, setNotification] = useState("");
   let [conversation, setConversation] = useState("");
+  let currentUser = useSelector((state) => state.user);
   let [showNotification, setShowNotification] = useState(false);
 
   useEffect(() => {
@@ -24,11 +26,11 @@ const Notification = () => {
       let data = JSON.parse(e.data);
       if (!data.hasOwnProperty("type")) {
         console.log(data.message);
-        if (data.message.contact_ids.includes(1)) {
+        if (data.message.contact_ids.includes(currentUser.id)) {
           axios
             .get(`/conversations/${data.message.conversation_id}`, {
               headers: {
-                user_id: 1,
+                user_id: currentUser.id,
               },
             })
             .then((e) => {
