@@ -4,6 +4,7 @@ import SelectUser from "./views/SelectUser";
 import CreateConversation from "./views/SetConversationTitle";
 import Conversation from "./views/Conversations";
 import AConversation from "./views/AConversation";
+import Notify from "./components/Notifications";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route exact path="/create-conversation" component={CreateConversation} />
       <Route exact path="/conversations" component={Conversation} />
       <Route exact path="/conversation/:id" component={AConversation} />
+      <Route exact path="/notify" component={Notify} />
     </div>
   );
 }

@@ -1,6 +1,8 @@
 import Title from "../components/Title";
 import ContactList from "../components/ContactList";
 import BaseButton from "../components/BaseButton";
+import Notification from "../components/Notifications";
+
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -8,7 +10,7 @@ import axios from "../plugins/axios";
 
 const AConversation = () => {
   let currentUser = useSelector((state) => state.user);
-  const [text, setText] = useState(null);
+  const [text, setText] = useState("");
   const { id } = useParams();
   let [conversation, setConversations] = useState([]);
 
@@ -52,8 +54,8 @@ const AConversation = () => {
   }, []);
 
   return (
-    <>
-      <Title title={conversation.title} subTitle="" />
+    <div className="position-relative">
+      <Title title={conversation?.title} subTitle="" />
 
       {conversation.recent_messages &&
         conversation.recent_messages.map((items) => (
@@ -78,7 +80,8 @@ const AConversation = () => {
           className="mx-2"
         />
       </div>
-    </>
+      <Notification />
+    </div>
   );
 };
 

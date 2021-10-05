@@ -50,6 +50,10 @@ const SelectUser = () => {
           <div className="col">
             <BaseButton clickHandler={() => handleSelectedContact()} />
             <BaseButton clickHandler={() => history.push("/conversations")} />
+            <BaseButton
+              text="Notification"
+              clickHandler={() => history.push("/notify")}
+            />
           </div>
         </div>
       ) : (

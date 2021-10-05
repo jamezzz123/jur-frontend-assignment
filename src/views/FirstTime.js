@@ -14,6 +14,11 @@ const FirstTime = () => {
   const history = useHistory();
 
   const selectedUserFunc = () => {
+    //call conversation endpoints
+    // check if selected user has existing conversation
+    // if not, create new conversation
+    // if so, go to conversations
+
     dispatch({
       type: "SET_USER",
       payload: selectedUser,
