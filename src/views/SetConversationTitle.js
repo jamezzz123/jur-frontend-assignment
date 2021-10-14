@@ -4,8 +4,10 @@ import BaseButton from "../components/BaseButton";
 import axios from "../plugins/axios";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 const SetConversationTitle = () => {
+  let history = useHistory();
   let currentUser = useSelector((state) => state.user);
   let selectedContacts = useSelector((state) => state.contactList);
   const [title, setTitle] = useState("");
@@ -18,7 +20,7 @@ const SetConversationTitle = () => {
         title: title,
         contact_ids: 2,
       });
-      let data = await axios.post(
+      let { data } = await axios.post(
         "/conversations",
         {
           title: title,
@@ -31,6 +33,8 @@ const SetConversationTitle = () => {
         }
       );
       console.log(data);
+
+      history.push(`/conversation/${data.id}`);
     } catch (error) {
       console.log(error);
     }

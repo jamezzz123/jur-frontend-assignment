@@ -13,7 +13,7 @@ const FirstTime = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const selectedUserFunc = () => {
+  const selectedUserFunc = async () => {
     //call conversation endpoints
     // check if selected user has existing conversation
     // if not, create new conversation
@@ -23,7 +23,20 @@ const FirstTime = () => {
       type: "SET_USER",
       payload: selectedUser,
     });
-    history.push("/select-user");
+    try {
+      let { data } = await axios.get("/conversations", {
+        headers: {
+          user_id: selectedUser.id,
+        },
+      });
+      if (data.length > 0) {
+        history.push("/conversations");
+      } else {
+        history.push("/select-user");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const fetchContactLists = async () => {

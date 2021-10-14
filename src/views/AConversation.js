@@ -80,7 +80,7 @@ const AConversation = () => {
           className="mx-2"
         />
       </div>
-      <Notification />
+      <Notification conversation_id="{id}" />
     </div>
   );
 };
